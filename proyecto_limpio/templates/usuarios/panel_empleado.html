@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="max-width: 600px; margin: auto; padding: 20px;">
+  <h2 style="text-align: center;">Bienvenido, {{ empleado.nombres }} {{ empleado.apellido_paterno }}</h2>
+
+  <hr>
+
+  <h4>📋 Información general</h4>
+  <ul>
+    <li><strong>Número de empleado:</strong> {{ empleado.numero_empleado }}</li>
+    <li><strong>Puesto:</strong> {{ empleado.get_puesto_display }}</li>
+    <li><strong>Sucursal:</strong> {{ empleado.get_sucursal_display }}</li>
+    <li><strong>Fecha de ingreso:</strong> {{ empleado.fecha_ingreso }}</li>
+  </ul>
+
+  <hr>
+
+  <h4>📅 Solicitudes de vacaciones</h4>
+  {% if vacaciones %}
+    <table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+      <thead>
+        <tr>
+          <th>Inicio</th>
+          <th>Fin</th>
+          <th>Retorno</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for vac in vacaciones %}
+        <tr>
+          <td>{{ vac.fecha_inicio }}</td>
+          <td>{{ vac.fecha_fin }}</td>
+          <td>{{ vac.fecha_retorno|default:"-" }}</td>
+          <td>{{ vac.estado|default:"Pendiente" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No tienes solicitudes registradas.</p>
+  {% endif %}
+
+  <hr>
+
+  <p style="text-align: center;">
+    <a href="{% url 'logout' %}">Cerrar sesión</a>
+  </p>
+</div>
+{% endblock %}

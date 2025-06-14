@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Vacaciones Confirmadas{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Vacaciones registradas con éxito</h2>
+    <p><strong>Empleado:</strong> {{ vacacion.empleado.nombres }} {{ vacacion.empleado.apellido_paterno }}</p>
+    <p><strong>Desde:</strong> {{ vacacion.fecha_inicio }}</p>
+    <p><strong>Hasta:</strong> {{ vacacion.fecha_fin }}</p>
+    <p><strong>Fecha de retorno:</strong> {{ vacacion.fecha_retorno }}</p>
+
+    <a href="{% url 'empleado_detalle' vacacion.empleado.id %}" class="btn btn-primary">Volver al perfil del empleado</a>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  .boton-panel {
+    display: inline-block;
+    padding: 15px 25px;
+    margin: 15px;
+    font-size: 16px;
+    background-color: #0074D9;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+  }
+  .boton-panel:hover {
+    background-color: #005fa3;
+  }
+</style>
+
+<div style="max-width: 800px; margin: auto; text-align: center; padding: 40px;">
+  <h2>Bienvenid(@), {{ empleado.nombres }} {{ empleado.apellido_paterno }}</h2>
+  <p style="margin-bottom: 30px;">Este es tu panel de administración.</p>
+
+  <div>
+    <a class="boton-panel" href="{% url 'empleado_nuevo' %}">➕ Alta Empleado</a>
+    <a class="boton-panel" href="{% url 'empleados_lista' %}">👥 Consulta Empleados</a>
+    <a class="boton-panel" href="{% url 'solicitudes_vacaciones' %}" class="btn btn-primary btn-lg me-2">📝 Solicitudes de Empleados</a>
+    <a class="boton-panel" href="#">📊 Generar Reporte de Empleado</a>
+  </div>
+  <div class="text-center mt-4">
+    <a class="boton-panel" href="#" class="btn btn-primary btn-lg">🧍‍♂️ Eventuales</a>
+  </div>
+
+
+</div>
+{% endblock %}
