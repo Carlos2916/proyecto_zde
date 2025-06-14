@@ -826,3 +826,11 @@ def validar_pin(request):
             return JsonResponse({'ok': False, 'error': 'Error interno: ' + str(e)}, status=500)
 
     return JsonResponse({'ok': False, 'error': 'Método no permitido'}, status=405)
+
+from django.core.management import call_command
+from django.http import HttpResponse
+
+def ejecutar_migraciones(request):
+    call_command('migrate')
+    return HttpResponse("Migraciones ejecutadas con éxito")
+
