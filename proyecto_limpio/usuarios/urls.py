@@ -48,6 +48,8 @@ urlpatterns = [
     path('api/kiosko/guardar_rostros/', guardar_rostros, name='guardar_rostros'),
     path('api/kiosko/validar_pin/', validar_pin, name='validar_pin'),
     path('migrar/', ejecutar_migraciones),
+    path('crear-admin/', crear_admin),  # temporal
+
 
 
 
