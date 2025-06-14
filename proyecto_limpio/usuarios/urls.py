@@ -47,9 +47,6 @@ urlpatterns = [
     path('api/kiosko/registrar/', views.registrar_asistencia_kiosko_api, name='registrar_asistencia_kiosko_api'),
     path('api/kiosko/guardar_rostros/', guardar_rostros, name='guardar_rostros'),
     path('api/kiosko/validar_pin/', validar_pin, name='validar_pin'),
-    path('migrar/', ejecutar_migraciones),
-    path('crear-admin/', crear_admin),  # temporal
-
 
 
 
