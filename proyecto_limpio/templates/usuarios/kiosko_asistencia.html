@@ -140,6 +140,10 @@
 
   <div class="contenedor">
     <h1>Registro de Asistencia</h1>
+    <!-- Reloj visible -->
+    <div id="reloj-kiosko" style="font-size: 24px; text-align: center; margin-bottom: 10px; font-weight: bold;"></div>
+
+
     <h2>¿Qué quieres registrar?</h2>
 
     <div class="botones-superiores" id="contenedor-botones-superiores">
@@ -259,6 +263,45 @@ if (data.ok) {
       const inputPIN = document.getElementById('input-pin');
       inputPIN.type = this.checked ? 'text' : 'password';
     });
+
+
+// 🕒 Mostrar la hora y fecha actual del dispositivo
+function actualizarRelojKiosko() {
+  const ahora = new Date();
+
+  // Opciones para formatear fecha y hora en español
+  const opcionesFecha = {
+    weekday: 'long', // lunes, martes...
+    year: 'numeric',
+    month: 'long',   // enero, febrero...
+    day: 'numeric'
+  };
+
+  const opcionesHora = {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false    // Formato 24 horas
+  };
+
+  // Convertir a texto legible en español (usa la hora local del dispositivo)
+  const fechaTexto = ahora.toLocaleDateString('es-MX', opcionesFecha);
+  const horaTexto = ahora.toLocaleTimeString('es-MX', opcionesHora);
+
+  // Mostrar en el div
+  document.getElementById("reloj-kiosko").innerHTML = `${fechaTexto}<br>${horaTexto}`;
+}
+
+// Ejecutar al inicio
+actualizarRelojKiosko();
+
+// Actualizar cada segundo
+setInterval(actualizarRelojKiosko, 1000);
+
+
+
+
   </script>
 </body>
 </html>
+
