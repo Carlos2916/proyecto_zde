@@ -9,8 +9,7 @@ from .views import panel_empleado
 from .views import aprobar_rechazar_solicitud
 from .views import guardar_rostros
 from .views import validar_pin
-from django.urls import path
-from .views import ejecutar_migraciones
+
 
 
 
@@ -47,6 +46,10 @@ urlpatterns = [
     path('api/kiosko/registrar/', views.registrar_asistencia_kiosko_api, name='registrar_asistencia_kiosko_api'),
     path('api/kiosko/guardar_rostros/', guardar_rostros, name='guardar_rostros'),
     path('api/kiosko/validar_pin/', validar_pin, name='validar_pin'),
+    path('panel-empleado/', views.panel_empleado, name='panel_empleado'),
+    path('empleado/<int:empleado_id>/solicitudes/', views.solicitudes_empleado, name='solicitudes_empleado'),
+    path('empleado/<int:empleado_id>/documentos/', views.documentos_empleado, name='documentos_empleado'),
+    path('empleado/<int:empleado_id>/horarios/', views.horarios_empleado, name='horarios_empleado')
 
 
 
