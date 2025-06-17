@@ -827,12 +827,8 @@ def validar_pin(request):
 
     return JsonResponse({'ok': False, 'error': 'Método no permitido'}, status=405)
 
-from django.core.management import call_command
-from django.http import HttpResponse
+def solicitudes_empleado(request):
+    return render(request, 'usuarios/solicitudes_empleado.html')
 
-def ejecutar_migraciones(request):
-    call_command('migrate')
-    return HttpResponse("Migraciones ejecutadas con éxito")
-
-
-
+def horarios_empleado(request, empleado_id):
+    return render(request, 'usuarios/horarios_empleado.html', {'empleado_id': empleado_id})
