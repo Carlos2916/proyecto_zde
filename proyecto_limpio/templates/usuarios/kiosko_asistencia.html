@@ -15,6 +15,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center; /* centro vertical */
       padding: 20px;
       min-height: 100vh;
       position: relative;
@@ -38,6 +39,12 @@
      max-width: 480px;
      padding: 10px;
      box-sizing: border-box;
+
+     display: flex;
+     flex-direction: column;
+     justify-content: flex-start;
+     margin-top: 30px; /* 👈 nueva separación desde arriba */
+
    }
 
 
@@ -136,15 +143,17 @@
 </head>
 
 <body>
+
+  <h1 style="text-align:center; font-size: 26px; margin-top: 10px;">Registro de Asistencia</h1>
   <img src="{% static 'fondos/logo_empresa.png' %}" alt="Marca de agua" class="marca-agua" />
 
   <div class="contenedor">
-    <h1>Registro de Asistencia</h1>
     <!-- Reloj visible -->
-    <div id="reloj-kiosko" style="font-size: 24px; text-align: center; margin-bottom: 10px; font-weight: bold;"></div>
+    <div id="reloj-kiosko" style="  font-size: 24px;  text-align: center;  margin-top: 10px;  margin-bottom: 30px;  font-weight: bold;  font-family: font-family: 'Segoe UI', sans-serif;  color: #111;"></div>
+
+    <h2 style="margin-bottom: 25px;">¿Qué quieres registrar?</h2>
 
 
-    <h2>¿Qué quieres registrar?</h2>
 
     <div class="botones-superiores" id="contenedor-botones-superiores">
       <button id="btn-entrada">Entrada</button>
@@ -284,9 +293,21 @@ function actualizarRelojKiosko() {
     hour12: false    // Formato 24 horas
   };
 
-  // Convertir a texto legible en español (usa la hora local del dispositivo)
-  const fechaTexto = ahora.toLocaleDateString('es-MX', opcionesFecha);
+// Función para capitalizar la primera letra de cada palabra
+  function capitalizarDiaYMes(texto) {
+    return texto.replace(/\b[a-zA-ZÀ-ÿ]/g, (letra, index) => {
+      const anterior = texto[index - 1];
+      const palabra = texto.substring(index).split(' ')[0];
+      return palabra.toLowerCase() === 'de' ? letra : letra.toUpperCase();
+    });
+  }
+
+
+// Obtener fecha y hora
+  const fechaOriginal = ahora.toLocaleDateString('es-MX', opcionesFecha);
+  const fechaTexto = capitalizarDiaYMes(fechaOriginal);
   const horaTexto = ahora.toLocaleTimeString('es-MX', opcionesHora);
+
 
   // Mostrar en el div
   document.getElementById("reloj-kiosko").innerHTML = `${fechaTexto}<br>${horaTexto}`;
