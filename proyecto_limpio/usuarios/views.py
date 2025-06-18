@@ -22,9 +22,6 @@ from .forms import EmpleadoForm, VacacionForm, AsistenciaForm
 import pandas as pd
 from usuarios.calculo_horas import procesar_asistencias
 from django.http import HttpResponse
-import pandas as pd
-from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
 import os
 import base64
 from django.conf import settings
@@ -107,7 +104,7 @@ def dashboard(request):
 
 # --- Empleados ---
 
-@login_required
+
 @login_required
 def empleados_lista(request):
     if request.user.is_superuser:
@@ -509,21 +506,14 @@ def registrar_asistencia_kiosko(request):
             empleado = Empleado.objects.get(numero_empleado=numero)
         except Empleado.DoesNotExist:
             return JsonResponse({'error': 'Empleado no encontrado'}, status=404)
-
-         Asistencia.objects.create(
-             empleado=empleado,
-             tipo=tipo,
-             fecha_hora=fecha_hora,  # ← usamos la hora enviada desde el navegador
-             ubicacion="Kiosko",
-             observaciones=""
-)        
-
-            Asistencia.objects.create(
+          
+        Asistencia.objects.create(
             empleado=empleado,
             tipo=tipo,
-            timestamp=timezone.now()
-        )
-
+            fecha_hora=fecha_hora,  # ← usamos la hora enviada desde el navegador
+            ubicacion="Kiosko",
+            observaciones=""
+        )        
         return JsonResponse({'mensaje': 'Asistencia registrada correctamente'})
 
 from django.http import HttpResponse
@@ -791,13 +781,14 @@ def validar_pin(request):
             datos = json.loads(request.body)
             numero_empleado = datos.get('numero_empleado')
             pin = datos.get('pin')
-fecha_hora_str = data.get('fecha_hora')
-if fecha_hora_str:
-    fecha_hora = parse_datetime(fecha_hora_str)
-    if fecha_hora and is_naive(fecha_hora):
-        fecha_hora = make_aware(fecha_hora)
-else:
-    fecha_hora = timezone.now()
+            fecha_hora_str = data.get('fecha_hora')
+           
+            if fecha_hora_str:
+                fecha_hora = parse_datetime(fecha_hora_str)
+                if fecha_hora and is_naive(fecha_hora):
+                    fecha_hora = make_aware(fecha_hora)
+            else:
+                fecha_hora = timezone.now()
 
 
             tipo = datos.get('tipo')
