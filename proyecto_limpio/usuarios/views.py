@@ -781,7 +781,7 @@ def validar_pin(request):
             datos = json.loads(request.body)
             numero_empleado = datos.get('numero_empleado')
             pin = datos.get('pin')
-            fecha_hora_str = data.get('fecha_hora')
+            fecha_hora_str = datos.get('fecha_hora')
            
             if fecha_hora_str:
                 fecha_hora = parse_datetime(fecha_hora_str)
