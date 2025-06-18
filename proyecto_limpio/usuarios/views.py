@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from django.views.decorators.http import require_POST
+from django.utils.dateparse import parse_datetime
 from datetime import date, timedelta
 import logging
 logger = logging.getLogger(__name__)
@@ -509,7 +510,15 @@ def registrar_asistencia_kiosko(request):
         except Empleado.DoesNotExist:
             return JsonResponse({'error': 'Empleado no encontrado'}, status=404)
 
-        Asistencia.objects.create(
+         Asistencia.objects.create(
+             empleado=empleado,
+             tipo=tipo,
+             fecha_hora=fecha_hora,  # ← usamos la hora enviada desde el navegador
+             ubicacion="Kiosko",
+             observaciones=""
+)        
+
+            Asistencia.objects.create(
             empleado=empleado,
             tipo=tipo,
             timestamp=timezone.now()
@@ -782,6 +791,15 @@ def validar_pin(request):
             datos = json.loads(request.body)
             numero_empleado = datos.get('numero_empleado')
             pin = datos.get('pin')
+fecha_hora_str = data.get('fecha_hora')
+if fecha_hora_str:
+    fecha_hora = parse_datetime(fecha_hora_str)
+    if fecha_hora and is_naive(fecha_hora):
+        fecha_hora = make_aware(fecha_hora)
+else:
+    fecha_hora = timezone.now()
+
+
             tipo = datos.get('tipo')
 
             print("🔹 Datos recibidos:", numero_empleado, pin, tipo)
@@ -829,7 +847,6 @@ def validar_pin(request):
 
 def solicitudes_empleado(request):
     return render(request, 'usuarios/solicitudes_empleado.html')
-
 def horarios_empleado(request, empleado_id):
     empleado = get_object_or_404(Empleado, id=empleado_id)
     asistencias = Asistencia.objects.filter(empleado=empleado).order_by('-fecha_hora')
