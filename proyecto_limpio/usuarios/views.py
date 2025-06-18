@@ -831,4 +831,10 @@ def solicitudes_empleado(request):
     return render(request, 'usuarios/solicitudes_empleado.html')
 
 def horarios_empleado(request, empleado_id):
-    return render(request, 'usuarios/horarios_empleado.html', {'empleado_id': empleado_id})
+    empleado = get_object_or_404(Empleado, id=empleado_id)
+    asistencias = Asistencia.objects.filter(empleado=empleado).order_by('-fecha_hora')
+    
+    return render(request, 'usuarios/horarios_empleado.html', {
+        'empleado': empleado,
+        'asistencias': asistencias
+    })
