@@ -1,8 +1,40 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="container text-center mt-5">
-    <h2>Horarios del empleado #{{ empleado_id }}</h2>
-    <p>Este módulo está en construcción.</p>
+  <div class="container mt-4">
+    <h2 class="text-center mb-4">📅 Horarios de {{ empleado.nombres }} {{ empleado.apellido_paterno }}</h2>
+
+    {% if asistencias %}
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped text-center">
+          <thead class="table-dark">
+            <tr>
+              <th>Fecha</th>
+              <th>Hora</th>
+              <th>Tipo</th>
+              <th>Ubicación</th>
+              <th>Observaciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for a in asistencias %}
+              <tr>
+                <td>{{ a.fecha_hora|date:"d/m/Y" }}</td>
+                <td>{{ a.fecha_hora|date:"H:i:s" }}</td>
+                <td>{{ a.tipo|title }}</td>
+                <td>{{ a.ubicacion|default:"-" }}</td>
+                <td>{{ a.observaciones|default:"-" }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="text-center">No se encontraron registros de asistencia.</p>
+    {% endif %}
+
+    <div class="text-center mt-3">
+      <a href="{% url 'panel_empleado' %}" class="btn btn-secondary">Volver</a>
+    </div>
   </div>
 {% endblock %}
