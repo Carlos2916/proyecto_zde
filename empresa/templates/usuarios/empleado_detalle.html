@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}Detalle de Empleado{% endblock %}
+
+{% block content %}
+
+<!-- Título y botón superior derecho -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Detalle del Empleado</h2>
+    <a href="{% url 'empleados_lista' %}" class="btn btn-secondary">Ver lista de empleados</a>
+</div>
+
+<ul class="list-group mb-3">
+  <li class="list-group-item"><strong>Nombre:</strong> {{ empleado.nombres }} {{ empleado.apellido_paterno }} {{ empleado.apellido_materno }}</li>
+  <li class="list-group-item"><strong>Puesto:</strong> {{ empleado.get_puesto_display }}</li>
+  <li class="list-group-item"><strong>Sucursal:</strong> {{ empleado.get_sucursal_display }}</li>
+  {% load humanize %}
+  <li class="list-group-item"><strong>Sueldo quincenal:</strong> {{ empleado.get_sueldo_quincenal_display }}</li>
+  <li class="list-group-item"><strong>Horas extras:</strong> {{ empleado.horas_extras }}</li>
+  <li class="list-group-item"><strong>Fecha de ingreso:</strong> {{ empleado.fecha_ingreso }}</li>
+  <li class="list-group-item"><strong>Vacaciones:</strong> {{ mensaje_vacaciones }}</li>
+  <li class="list-group-item"><strong>Estado:</strong> {{ empleado.activo|yesno:"Activo,Baja" }}</li>
+</ul>
+
+<div class="mt-3 d-flex gap-2 flex-wrap">
+    <a href="{% url 'documentos_empleado' empleado.id %}" class="btn btn-info">Ver documentos del empleado</a>
+    <a href="{% url 'empleado_editar' empleado.id %}" class="btn btn-warning">Editar</a>
+    {% if empleado.activo %}
+    <a href="{% url 'empleado_baja' empleado.id %}" class="btn btn-danger">Dar de baja</a>
+    {% else %}
+    <a href="{% url 'empleado_recontratar' empleado.id %}" class="btn btn-success">Recontratar</a>
+    {% endif %}
+    <a href="{% url 'panel_empleado' empleado.id %}" class="btn btn-outline-primary">Panel de Control</a>
+</div>
+
+<h3 class="mt-4">Vacaciones</h3>
+
+<div class="mb-3">
+    {% if puede_solicitar %}
+        <a href="{% url 'vacaciones_nueva' empleado.id %}" class="btn btn-primary">Solicitar vacaciones</a>
+    {% endif %}
+    <button id="btnHistorial" class="btn btn-outline-primary">Historial de vacaciones</button>
+    <div id="historialVacaciones" class="mt-4"></div>
+</div>
+
+<div class="alert alert-info">
+    <p><strong>Días de vacaciones que le corresponden:</strong> {{ dias_vacaciones }}</p>
+    <p><strong>Días ya tomados:</strong> {{ dias_usados }}</p>
+    <p><strong>Días disponibles:</strong> {{ dias_disponibles }}</p>
+</div>
+
+<script>
+document.getElementById('btnHistorial').addEventListener('click', function () {
+    const url = "{% url 'historial_vacaciones' empleado.id %}";
+    fetch(url)
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('historialVacaciones').innerHTML = html;
+        })
+        .catch(error => {
+            console.error("Error al cargar historial:", error);
+            document.getElementById('historialVacaciones').innerHTML = "<p class='text-danger'>No se pudo cargar el historial.</p>";
+        });
+});
+</script>
+
+{% endblock %}

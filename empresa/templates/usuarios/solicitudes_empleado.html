@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Mis Solicitudes de Vacaciones</h2>
+
+  {% if solicitudes %}
+    <table class="table table-striped mt-3">
+      <thead>
+        <tr>
+          <th>Fecha Inicio</th>
+          <th>Fecha Fin</th>
+          <th>Estado</th>
+          <th>Motivo</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in solicitudes %}
+          <tr>
+            <td>{{ s.fecha_inicio }}</td>
+            <td>{{ s.fecha_fin }}</td>
+            <td>
+              {% if s.estado == 'pendiente' %}
+                <span class="badge bg-warning text-dark">Pendiente</span>
+              {% elif s.estado == 'aprobada' %}
+                <span class="badge bg-success">Aprobada</span>
+              {% elif s.estado == 'rechazada' %}
+                <span class="badge bg-danger">Rechazada</span>
+              {% endif %}
+            </td>
+            <td>{{ s.motivo|default:"-" }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No tienes solicitudes registradas.</p>
+  {% endif %}
+</div>
+{% endblock %}

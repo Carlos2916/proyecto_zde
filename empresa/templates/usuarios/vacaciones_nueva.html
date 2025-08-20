@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Solicitar Vacaciones{% endblock %}
+
+{% block content %}
+<div class="container my-4 p-4 border bg-light rounded">
+    <h2>Solicitar Vacaciones para {{ empleado.nombres }} {{ empleado.apellido_paterno }}</h2>
+    <hr>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.fecha_inicio.label_tag }}  
+            {{ form.fecha_inicio }}
+        </div>
+        <div class="mb-3">
+            {{ form.dias_a_tomar.label_tag }}  
+            {{ form.dias_a_tomar }}
+        </div>
+        <div class="mb-3">
+            {{ form.motivo.label_tag }}
+            {{ form.motivo }}
+        </div>
+
+        {% if form.fecha_fin.value %}
+        <div class="alert alert-info">
+            <strong>Fecha final estimada:</strong> {{ form.fecha_fin.value }}<br>
+            <strong>Fecha de retorno:</strong> {{ form.fecha_retorno.value }}
+        </div>
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{% url 'empleado_detalle' empleado.id %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
