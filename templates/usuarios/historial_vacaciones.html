@@ -1,0 +1,27 @@
+<h4>Historial de vacaciones</h4>
+<table class="table table-bordered table-hover mt-2">
+    <thead class="table-light">
+        <tr>
+            <th>Desde</th>
+            <th>Hasta</th>
+            <th>Retorno</th>
+            <th>Días tomados</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for vac in vacaciones %}
+        <tr>
+            <td>{{ vac.fecha_inicio|date:"d/m/Y" }}</td>
+            <td>{{ vac.fecha_fin|date:"d/m/Y" }}</td>
+            <td>{{ vac.fecha_retorno|date:"d/m/Y" }}</td>
+            <td>{{ vac.dias_tomados }}</td>
+            <td>{{ vac.get_estado_display }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No hay vacaciones registradas.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>🧾 Finiquitos - Empleados dados de baja</h2>
+  <hr>
+  {% if empleados_baja %}
+    <div class="list-group">
+      {% for empleado in empleados_baja %}
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <strong>{{ empleado.nombres }} {{ empleado.apellido_paterno }}</strong> -
+            {{ empleado.puesto|title }} | Baja: {{ empleado.fecha_baja|date:"d/m/Y" }}
+          </div>
+          <div>
+            <a href="#" class="btn btn-sm btn-outline-primary">📄 Ver Finiquito</a>
+            <a href="#" class="btn btn-sm btn-success">🧮 Calcular</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No hay empleados dados de baja aún.</p>
+  {% endif %}
+</div>
+{% endblock %}

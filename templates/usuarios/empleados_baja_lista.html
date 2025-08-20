@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Empleados Dados de Baja{% endblock %}
+
+{% block content %}
+<h2>Empleados dados de baja</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>CURP</th>
+            <th>Puesto</th>
+            <th>Sucursal</th>
+            <th>Fecha Ingreso</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for emp in empleados %}
+        <tr>
+            <td>{{ emp.nombre }}</td>
+            <td>{{ emp.curp }}</td>
+            <td>{{ emp.puesto }}</td>
+            <td>{{ emp.sucursal }}</td>
+            <td>{{ emp.fecha_ingreso }}</td>
+            <td>
+                <a href="{% url 'empleado_recontratar' empleado_id=emp.id %}" class="btn btn-sm btn-success">Recontratar</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">No hay empleados dados de baja.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

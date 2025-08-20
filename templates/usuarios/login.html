@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Iniciar sesión{% endblock %}
+
+{% block content %}
+<h2>Iniciar sesión</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-primary" id="boton-login">Entrar</button>
+</form>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const boton = document.getElementById("boton-login");
+
+    boton.addEventListener("click", function () {
+      // Esto se guardará solo si el usuario es admin. Puedes refinarlo después
+      localStorage.setItem("admin_kiosko_logueado", "1");
+    });
+  });
+</script>
+
+
+
+
+{% endblock %}

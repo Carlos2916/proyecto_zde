@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+  <div class="row justify-content-center text-center">
+    <div class="col-lg-8">
+
+  {% if empleado %}
+    <h2>Bienvenid(@), {{ empleado.nombres }} {{ empleado.apellido_paterno }}</h2>
+  {% else %}
+    <h2>Bienvenid(@), Superusuario</h2>
+  {% endif %}
+
+  <p style="margin-bottom: 30px;">Este es tu panel de administración.</p>
+
+<div class="row g-3">
+  <div class="col-12 col-sm-6">
+    <a href="{% url 'empleado_nuevo' %}" class="btn btn-primary w-100 py-3">➕ Alta Empleado</a>
+  </div>
+  <div class="col-12 col-sm-6">
+    <a href="{% url 'empleados_lista' %}" class="btn btn-primary w-100 py-3">👥 Consulta Empleados</a>
+  </div>
+<div class="col-12 col-sm-6">
+  <a href="{% url 'solicitudes_vacaciones' %}" class="btn btn-primary w-100 py-3 position-relative">
+    📝 Solicitudes de Empleados
+    {% if total_solicitudes_pendientes > 0 %}
+      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+        {{ total_solicitudes_pendientes }}
+        <span class="visually-hidden">solicitudes pendientes</span>
+      </span>
+    {% endif %}
+  </a>
+</div>
+  <div class="col-12 col-sm-6">
+    <a href="#" class="btn btn-primary w-100 py-3">📊 Generar Reporte de Empleado</a>
+  </div>
+
+  <div class="col-12 col-sm-6">
+    <a href="{% url 'eventuales' %}" class="btn btn-primary w-100 py-3">🧍‍♂️ Eventuales</a>
+  </div>
+  <div class="col-12 col-sm-6">
+    <a href="{% url 'primas_vacacionales' %}" class="btn btn-primary w-100 py-3">🏖️ Primas Vacacionales</a>
+  </div>
+   
+   
+  <div class="col-12 col-sm-6">
+    <a href="{% url 'finiquitos_menu' %}" class="btn btn-primary w-100 py-3">🧾 Finiquitos</a>
+  </div>
+</div>
+
+
+{% endblock %}

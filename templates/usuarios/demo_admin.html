@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel de Demostracion</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #e6f2ff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 30px 20px;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-bottom: 30px;
+      color: #003366;
+      text-align: center;
+    }
+
+    .botones-demo {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .botones-demo button {
+      padding: 18px;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+
+    .botones-demo button:hover {
+      transform: scale(1.03);
+    }
+
+    .btn-ausencia { background-color: orange; }
+    .btn-continuos { background-color: purple; }
+    .btn-corrido { background-color: teal; }
+  </style>
+</head>
+
+<body id="pagina-demo">
+
+<!-- Botón SALIR arriba a la derecha -->
+<!-- Botón SALIR arriba a la derecha -->
+<div style="position: absolute; top: 20px; right: 20px; z-index: 2;">
+  <button onclick="cerrarSesionAdmin()" style="background-color: gray; color: white; font-weight: bold; border-radius: 8px; padding: 10px 20px; font-size: 14px;">SALIR</button>
+</div>
+
+
+  <h1>Panel de Demostracion</h1>
+
+<div id="bloque-demostraciones" style="display: none; flex-direction: column; gap: 15px; align-items: center;">
+  <h3 style="margin-bottom: 10px;">Demostraciones:</h3>
+  <button onclick="location.href='{% url 'demo_ausencia' %}'" style="background-color: orange; padding: 15px; width: 250px; border-radius: 8px; font-weight: bold;">Ausencia de Registro</button>
+  <button onclick="location.href='{% url 'demo_continuos' %}'" style="background-color: purple; color: white; padding: 15px; width: 250px; border-radius: 8px; font-weight: bold;">Registros Continuos</button>
+  <button onclick="location.href='{% url 'demo_corrido' %}'" style="background-color: teal; padding: 15px; width: 250px; border-radius: 8px; font-weight: bold;">Horarios de Corrido</button>
+</div>
+
+
+
+<script>
+  let timeout;
+
+  function resetTimer() {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      window.location.href = '/kiosko/';  // Cambia esta ruta si es necesario
+    }, 180000); // 3 minutos = 180,000 milisegundos
+  }
+
+  // Eventos que reinician el temporizador
+  ['click', 'mousemove', 'keypress', 'scroll', 'touchstart'].forEach(event => {
+    document.addEventListener(event, resetTimer);
+  });
+
+  // Iniciar el temporizador al cargar la página
+  resetTimer();
+</script>
+
+<script>
+  function cerrarSesionAdmin() {
+    localStorage.removeItem("admin_kiosko_logueado");
+    window.location.href = "/kiosko/";
+  }
+</script>
+
+<script>
+  function mostrarBloqueDemostraciones() {
+    document.querySelector('.botones-demo').style.display = 'flex';
+  }
+
+  window.addEventListener("DOMContentLoaded", function () {
+    const bloque = document.getElementById("bloque-demostraciones");
+    const adminLogueado = localStorage.getItem("admin_kiosko_logueado");
+
+    if (adminLogueado === "1") {
+      bloque.style.display = "flex";
+    } else {
+      bloque.innerHTML = "<p style='color:red;'>No estás autenticado como administrador.</p>";
+      bloque.style.display = "block";
+    }
+  });
+</script>
+
+</body>
+</html>
+

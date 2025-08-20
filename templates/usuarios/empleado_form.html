@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block title %}Registrar nuevo empleado{% endblock %}
+
+{% block content %}
+<div class="container my-4 p-4 border rounded bg-light shadow-sm" style="max-width: 700px;">
+    <h2 class="mb-4 text-center">Registrar nuevo empleado</h2>
+
+{% if form.errors %}
+<div class="alert alert-danger">
+  <ul>
+    {% for field in form %}
+      {% for error in field.errors %}
+        <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+      {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+      <li>{{ error }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+
+
+    <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+
+        <!-- Número de empleado + Nombre -->
+        <div class="row mb-3">
+            <div class="col-md-3">
+                {{ form.numero_empleado.label_tag }}
+                {{ form.numero_empleado|add_class:"form-control text-center" }}
+            </div>
+            <div class="col-md-9">
+                {{ form.nombres.label_tag }}
+                {{ form.nombres }}
+            </div>
+        </div>
+
+        <!-- Apellidos -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                {{ form.apellido_paterno.label_tag }}
+                {{ form.apellido_paterno }}
+            </div>
+            <div class="col-md-6">
+                {{ form.apellido_materno.label_tag }}
+                {{ form.apellido_materno }}
+            </div>
+        </div>
+
+        <!-- Puesto y Sucursal -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                {{ form.puesto.label_tag }}
+                {{ form.puesto }}
+            </div>
+            <div class="col-md-6">
+                {{ form.sucursal.label_tag }}
+                {{ form.sucursal }}
+            </div>
+        </div>
+
+        <!-- Sueldo y Horas Extras -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                {{ form.sueldo_quincenal.label_tag }}
+                {{ form.sueldo_quincenal }}
+            </div>
+            <div class="col-md-6">
+                {{ form.horas_extras.label_tag }}
+                {{ form.horas_extras }}
+            </div>
+        </div>
+
+        <!-- Campo para seleccionar usuario -->
+        {% if request.user.is_superuser %}
+        <div class="mb-3">
+            {{ form.user.label_tag }}
+            {{ form.user|add_class:"form-select" }}
+        </div>
+        {% endif %}
+
+
+
+        <!-- Fecha ingreso y Activo -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                {{ form.fecha_ingreso.label_tag }}
+                {{ form.fecha_ingreso }}
+            </div>
+            <div class="col-md-6">
+                {{ form.activo.label_tag }}
+                {{ form.activo }}
+            </div>
+        </div>
+        
+        {% if request.user.is_superuser %}
+        <!-- ¿Es administrador? -->
+        <div class="row mb-3">
+            <div class="col-md-12 form-check">
+                {{ form.es_administrador|add_class:"form-check-input" }}
+                <label class="form-check-label" for="id_es_administrador">
+                    ¿Este empleado es administrador?
+                </label>
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Fotos de identificación -->
+        
+        <div class="row mb-3">
+          <div class="col-md-12">
+            {{ form.foto_identificacion_frente.label_tag }}
+            {{ form.foto_identificacion_frente|attr:"accept:image/*"|attr:"capture:environment" }}
+          </div>
+        </div>
+
+        
+        <div class="row mb-3">
+          <div class="col-md-12">
+            {{ form.foto_identificacion_reverso.label_tag }}
+            {{ form.foto_identificacion_reverso|attr:"accept:image/*"|attr:"capture:environment" }}
+          </div>
+        </div>
+
+ 
+
+        <!-- Botones -->
+        <div class="d-flex justify-content-between mt-4">
+            <button class="btn btn-success" type="submit">Guardar</button>
+            <a href="{% url 'empleados_lista' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
